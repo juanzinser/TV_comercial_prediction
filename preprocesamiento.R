@@ -1,8 +1,8 @@
 
 ## ------ PREPROCESSING -----------
-preprocess <- FALSE
+preprocess <- T
 if(preprocess){
-  v <- read.csv("20140714_0810.csv")
+  v <- read.csv("data/20140714_0810.csv")
   tam <- length(v$visits)
   ndays <- tam/1440 
   
