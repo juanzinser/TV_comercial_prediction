@@ -1,3 +1,4 @@
+library(lubridate)
 
 ## ------ PREPROCESSING -----------
 preprocess <- T
@@ -35,19 +36,22 @@ tam <- length(v$visits)
   v$wday <- wday(v$date)
   
 ## Smoothing
-  v$v <- numeric(tam)
-  v$nv <- numeric(tam)
-  for (t in 1:tam){
-    v$v[t]<-mean(v$visits[max(1,t-hlfwin):min(tam,t+hlfwin-1)])
-    v$nv[t]<-mean(v$newvisits[max(1,t-hlfwin):min(tam,t+hlfwin-1)])
+
+smooth <- function (x,hlfwin){
+  len <- length(x)
+  xsm <- numeric(len)
+  for (t in 1:len){
+    xsm[t]<-mean(x[max(1,t-hlfwin):min(len,t+hlfwin-1)], rm.na = TRUE)
   }
+  return(xsm)
 }
 
-par(mfrow=c(2,1))
+  v$v <- smooth(v$visits,hlfwin)
+  v$nv <- smooth(v$newvisits,hlfwin)
+}
 
+## Averaging 
 xmat <- matrix(v$v,nrow=1440*7)
-xmean <- rowMeans(xmat)
-matplot(cbind(matrix(v$visits,nrow=1440*7),xmean), type = c('l','l','l','l',"b"),pch=1,col = c(2:5,1), ylab = "Actual Visits", main="Comparing with 4-week Avg (hlfwin=30)")
-legend("topleft", legend = 1:4, col=2:5, pch=1)
-matplot(cbind(xmat,xmean), type = c('l','l','l','l',"b"),pch=1,col = c(2:5,1), ylab = "Smoothed Visits")
+vpred <- smooth(rowMeans(xmat),hlfwin)
+matplot(cbind(xmat,vpred), type = c('l','l','l','l',"b"),pch=1,col = c(2:5,1), ylab = "Smoothed Visits")
 legend("topleft", legend = 1:4, col=2:5, pch=1)
