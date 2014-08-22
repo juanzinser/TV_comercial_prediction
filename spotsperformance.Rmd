@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Spot Performance"
 output: html_document
@@ -38,3 +39,45 @@ ggplot(spot, aes(x=channel, y=rating, fill=channel)) + geom_boxplot()
 qplot(lift,data=spot,fill= channel,binwidth=max(spot$lift)/30)
 ```
 
+=======
+---
+title: "Spot Performance"
+output: html_document
+---
+
+This is a preliminary analysis of the TV campaing performance.
+
+First we load the baseline, visits and spots data.
+```{r}
+load("baseline.rdata")
+load("visits.rdata")
+load("spots.rdata")
+```
+
+Attribution
+```{r cache = TRUE}
+window <- 10
+spot$lift <- rep(0,length(spot$rating))
+v$extra <- v$v - baseavg
+for(t in seq(1:length(v$tmstmp))){
+  indsp <- which(spot$tmstmp>(v$tmstmp[t]-window*60) & spot$tmstmp<=v$tmstmp[t])
+  spot$lift[indsp] <- spot$lift[indsp] + v$extra[t]*spot$rating[indsp]/sum(spot$rating[indsp])
+}
+```
+
+Visits
+```{r warning=FALSE}
+library(ggplot2)
+
+ggplot(v, aes(tmstmp)) + 
+  geom_line(aes(y = v, colour = "visits")) +
+  geom_line(aes(y = baseavg, colour = "base"))
+```
+
+Lift by Channel
+```{r}
+ggplot(spot, aes(x=channel, y=rating, fill=channel)) + geom_boxplot()
+qplot(lift,data=spot,fill= channel,binwidth=max(spot$lift)/30)
+```
+
+>>>>>>> 4d7bd5513ca569e73bfe9b3f26d81d1c35bcefbf
