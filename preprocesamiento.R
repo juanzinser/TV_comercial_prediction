@@ -1,7 +1,7 @@
 library(lubridate)
 
 ## ------ PREPROCESSING -----------
-preprocess <- FALSE
+preprocess <- TRUE
 if(preprocess){
   v <- read.csv("20140714_0810.csv")
   tam <- length(v$visits)
@@ -55,3 +55,7 @@ xmat <- matrix(v$v,nrow=1440*7)
 vpred <- smooth(rowMeans(xmat),hlfwin)
 matplot(cbind(xmat,vpred), type = c('l','l','l','l',"b"),pch=1,col = c(2:5,1), ylab = "Smoothed Visits")
 legend("topleft", legend = 1:4, col=2:5, pch=1)
+
+## Save
+baseavg <- vpred
+save(baseavg, file = "baseline.rdata")
