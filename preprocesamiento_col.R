@@ -3,7 +3,7 @@ library(lubridate)
 ## ------ PREPROCESSING -----------
 preprocess <- TRUE
 if(preprocess){
-  v <- read.csv("data/col_30jun_24ago.csv")
+  v <- read.csv("data/col_30jun_24ago_act.csv")
   tam <- length(v$visits)
   ndays <- tam/1440 
   
