@@ -3,7 +3,7 @@ library(lubridate)
 ## ------ PREPROCESSING -----------
 preprocess <- TRUE
 if(preprocess){
-  v <- read.csv("data/col_30jun_24ago_act.csv")
+  v <- read.csv("data/col_30jun_24ago_full.csv")
   tam <- length(v$visits)
   ndays <- tam/1440 
   
@@ -25,12 +25,12 @@ repeat {
   if(miss==1) break
   newrow <- data.frame(date = v$date[miss-1],hits_hour = hour(tmseq[miss]), 
                        hits_minute = minute(tmseq[miss]), visits = 0, newvisits = 0, 
-                       transactions = 0, tmstmp = tmseq[miss])
+                       transactions = 0,brandvisits = 0, tmstmp = tmseq[miss])
   v <- rbind(v[1:miss-1,],newrow,v[miss:length(v$date),])
 }
 tam <- length(v$visits)
 
-## Date
+ ## Date
 
   v$date <- as.POSIXct(as.character(v$date), format = "%Y%m%d")
   v$wday <- wday(v$date)
@@ -48,6 +48,7 @@ smooth <- function (x,hlfwin){
 
   v$v <- smooth(v$visits,hlfwin)
   v$nv <- smooth(v$newvisits,hlfwin)
+  v$bv <- smooth(v$brandvisits,hlfwin)
 }
 
 ## Averaging 
@@ -59,3 +60,4 @@ smooth <- function (x,hlfwin){
 ## Save
 # baseavg <- vpred
 # save(baseavg, file = "baseline.rdata")
+
