@@ -3,7 +3,7 @@ library(lubridate)
 ## ------ PREPROCESSING -----------
 preprocess <- TRUE
 if(preprocess){
-  v <- read.csv("data/results-20140827-193435.csv")
+  v <- read.csv("data/col_14jul_24ago.csv",na.strings="null")
   tam <- length(v$visits)
   ndays <- tam/1440 
   
@@ -62,5 +62,5 @@ smooth <- function (x,hlfwin){
 #save(baseavg, file = "baseline.rdata")
 
 ##Save
-#save(v,file="visits.rdata")
+#save(v,file="data/visits.rdata")
 

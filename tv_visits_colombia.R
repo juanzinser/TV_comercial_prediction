@@ -149,6 +149,7 @@ col_prom3$sd_bv <- sd_bv
 col_prom <- data.frame(col_prom,col_prom2,col_prom3)
 
  write.csv(col_prom,"output/baseline_colombia.csv")
+#save(v,col_prom,file="output/baseline_colombia.Rdata")
 
 # plot
 plot(ts(col_prom$bv_lunes + 2*sd_bv),col='lightblue',main="Lunes promedio +- 1 y 2 sd",ylim=c(0,40))
