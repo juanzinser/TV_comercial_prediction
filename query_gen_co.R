@@ -3,7 +3,7 @@ library(lubridate)
 
 # Inputs 
 
-inicio <- as.Date("2014-06-30")
+inicio <- as.Date("2014-07-14")
 final <- as.Date("2014-08-24") 
 
 seq <- seq(from = inicio, to=final,by = 1)
