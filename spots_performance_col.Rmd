@@ -10,7 +10,7 @@ First we load the baseline, visits and spots data.
 ```{r}
 #carga las tablas varias columnas de donde este nuestro directorio
 #la tabla de spots se mantiene constante, pero las otras si cambian
-load("baseline.rdata")
+load("output/baseline_colombia.rdata")
 load("visits.rdata")
 load("spots.rdata")
 ```
@@ -20,8 +20,25 @@ load("spots.rdata")
 #spots.rdata es spot
 #por lo tanto hay que establecer esos nombres
 
+#por parte del baseline obtenemos un data.frame que tiene los 3 baselines en cada columna: 
+#col_prom, col_prom1 y col_prom2
+
+#las visitas tienen v$v,v$nv y v$bv
+#se tienen que checar las visitas con la columna respectiva de los promedios, ya que estos estanpor dias
 ```{r}
 spot<-spots
+baseline_v_1col<-rbind(col_prom$col_prom$v_lunes,col_prom$col_prom$v_martes,col_prom$col_prom$v_miercoles,
+                     col_prom$col_prom$v_jueves,col_prom$col_prom$v_viernes,col_prom$col_prom$v_sabado,
+                     col_prom$col_prom$v_domingo)
+baseline_nv_1col<-rbind(col_prom$col_prom2$nv_lunes,col_prom$col_prom2$nv_martes,
+                        col_prom$col_prom2$nv_miercoles,col_prom$col_prom2$nv_jueves,
+                        col_prom$col_prom2$nv_viernes,col_prom$col_prom2$nv_sabado,
+                        col_prom$col_prom2$nv_domingo)
+baseline_bv_1col<-rbind(col_prom$col_prom2$bv_lunes,col_prom$col_prom3$bv_martes,
+                        col_prom$col_prom3$bv_miercoles,col_prom$col_prom3$bv_jueves,
+                        col_prom$col_prom3$bv_viernes,col_prom$col_prom3$bv_sabado,
+                        col_prom$col_prom3$bv_domingo)
+
 ```
 
 
@@ -29,7 +46,7 @@ Attribution
 ```{r cache = TRUE}
 window <- 10
 spot$lift <- rep(0,length(spot$rating))
-v$extra <- v$v - baseavg
+v$extra <- v$v - baseline_v_1col[1:length(v$v)]
 for(t in seq(1:length(v$tmstmp))){
   indsp <- which(spot$tmstmp>(v$tmstmp[t]-window*60) & spot$tmstmp<=v$tmstmp[t])
   spot$lift[indsp] <- spot$lift[indsp] + v$extra[t]*spot$rating[indsp]/sum(spot$rating[indsp])

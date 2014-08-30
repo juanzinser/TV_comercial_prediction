@@ -3,8 +3,8 @@ library(lubridate)
 
 # Inputs 
 
-inicio <- as.Date("2014-07-14")
-final <- as.Date("2014-08-24") 
+inicio <- as.Date("2014-08-25")
+final <- as.Date("2014-08-27") 
 
 seq <- seq(from = inicio, to=final,by = 1)
 #paste(year(seq[20]),sprintf("%02d",month(seq[20])),sprintf("%02d",day(seq[20])),sep="")
