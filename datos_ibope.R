@@ -36,5 +36,5 @@ names(spots)[6]<-paste("cost")
 # crear archivo csv -------------------------------------------------------
 
 write.csv(spots,file='spots_ibope.csv')
-save(spots,file='spots.rdata')
+save(spots,file='data/spots.rdata')
 

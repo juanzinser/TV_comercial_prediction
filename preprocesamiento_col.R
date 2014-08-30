@@ -3,7 +3,7 @@ library(lubridate)
 ## ------ PREPROCESSING -----------
 preprocess <- TRUE
 if(preprocess){
-  v <- read.csv("data/col_14jul_24ago.csv",na.strings="null")
+  v <- read.csv("data/col_25ago_26ago.csv",na.strings="null")
   tam <- length(v$visits)
   ndays <- tam/1440 
   
@@ -63,4 +63,3 @@ smooth <- function (x,hlfwin){
 
 ##Save
 #save(v,file="data/visits.rdata")
-
